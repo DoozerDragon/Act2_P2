@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <script src="bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>    
+    <script src="js/vue3.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Pantalla de Carga -->
+        <div v-if="isLoading" class="loading-screen">
+            <div class="loading-content text-center">
+                <h1>Bienvenido</h1>
+                <p>Cargando tu experiencia...</p>
+            </div>
+        </div>
+
+        <header class="text-center py-3 mb-4">
+            <h1>Actividad 02 Crear lista de Tareas con Vue</h1>
+        </header>
+
+        <section class="container mt-4 p-4 rounded shadow-lg bg-warning" v-show="!isLoading">
+            <!-- Sección introductoria -->
+            <p class="text-center mb-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, eligendi odit, veniam repudiandae nihil error unde vel quam ducimus consequuntur eius nesciunt quisquam atque, optio mollitia autem voluptatum voluptate!
+            </p>
+
+            <!-- Input para agregar tareas nuevas -->
+            <div class="mb-4 text-center">
+                <input type="text" v-model="nuevaTarea" class="form-control w-50 mx-auto mb-2" placeholder="Escribe una nueva tarea">
+                <button @click="agregarTarea" class="btn btn-success">Agregar Tarea</button>
+            </div>
+
+            <!-- Controles de Progreso -->
+            <div class="text-center mb-3">
+                <button @click="decrementarProgreso" class="btn btn-outline-danger mx-1 btn-lg">-</button>
+                <span class="display-4">{{ progreso }}</span>
+                <button @click="incrementarProgreso" class="btn btn-outline-primary mx-1 btn-lg">+</button>
+            </div>
+
+            <!-- Barra de Progreso -->
+            <div class="progress mb-4" style="height: 25px;">
+                <div class="progress-bar progress-bar-striped" :style="{width: progreso + '%', backgroundColor: colorBarra}" role="progressbar">
+                    {{ progreso }}%
+                </div>
+            </div>
+
+            <!-- Lista de Tareas -->
+            <ul class="list-group mb-3 text-center">
+                <li 
+                    v-for="(tarea, index) in tareas" 
+                    :key="index" 
+                    class="list-group-item d-flex justify-content-between align-items-center" 
+                    :class="{'text-decoration-line-through': tarea.completado, 'bg-light': tarea.completado, 'bg-transparent': !tarea.completado}">
+                    <span @click="toggleTarea(index)" style="flex: 1; cursor: pointer;">{{ tarea.nombre }}</span>
+                    <span class="mr-2">{{ tarea.completado ? 'true' : 'false' }}</span>
+                    <button @click="eliminarTarea(index)" class="btn-eliminar">Eliminar</button>
+                </li>
+            </ul>
+
+            <!-- Contador de Tareas Completas -->
+            <h4 class="text-center mt-4">Tareas Completas {{ tareasCompletadas }}</h4>
+        </section>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
